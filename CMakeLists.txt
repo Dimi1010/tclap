@@ -8,6 +8,15 @@ set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_definitions(-DHAVE_TCLAP_CONFIG_H)
 
+set(TCLAP_IS_MAIN_PROJECT OFF)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+	set(TCLAP_IS_MAIN_PROJECT ON)
+endif()
+
+option(BUILD_EXAMPLES "Build examples" TCLAP_IS_MAIN_PROJECT)
+option(BUILD_UNITTESTS "Build unit tests" TCLAP_IS_MAIN_PROJECT)
+option(BUILD_DOC "Build documentation" TCLAP_IS_MAIN_PROJECT)
+
 enable_testing()
 include(CTest)
 include(CPackComponent)
@@ -72,10 +81,6 @@ install(FILES ${PROJECT_BINARY_DIR}/docs/index.html ${PROJECT_BINARY_DIR}/docs/m
   ${PROJECT_BINARY_DIR}/docs/style.css DESTINATION ${DOC_INSTALL_DIR}
   COMPONENT doc
 )
-
-option(BUILD_EXAMPLES "Build examples" ON)
-option(BUILD_UNITTESTS "Build unit tests" ON)
-option(BUILD_DOC "Build documentation" ON)
 
 if(BUILD_DOC)
 	add_subdirectory(docs)
