@@ -58,38 +58,37 @@ install(FILES "${GENERATED_CONFIG_BUILD_PATH}"
   COMPONENT lib
 )
 
-
-if(DOC_INSTALL_DIR)
-else()
-  if(WIN32)
-    set(DOC_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/doc)
-  else()
-    set(DOC_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/doc/tclap)
-  endif()
-endif()
-
-cpack_add_component(doc
-	DISPLAY_NAME "documentation"
-	DESCRIPTION "Documentation files for TCLAP"
-)
-
-install(DIRECTORY ${PROJECT_BINARY_DIR}/docs/html
-  DESTINATION ${DOC_INSTALL_DIR}
-  COMPONENT doc
-)
-install(FILES ${PROJECT_BINARY_DIR}/docs/index.html ${PROJECT_BINARY_DIR}/docs/manual.html
-  ${PROJECT_BINARY_DIR}/docs/style.css DESTINATION ${DOC_INSTALL_DIR}
-  COMPONENT doc
-)
-
 if(TCLAP_BUILD_DOC)
+	if(DOC_INSTALL_DIR)
+	else()
+	  if(WIN32)
+		set(DOC_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/doc)
+	  else()
+		set(DOC_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/doc/tclap)
+	  endif()
+	endif()
+
+	cpack_add_component(doc
+		DISPLAY_NAME "documentation"
+		DESCRIPTION "Documentation files for TCLAP"
+	)
+
+	install(DIRECTORY ${PROJECT_BINARY_DIR}/docs/html
+	  DESTINATION ${DOC_INSTALL_DIR}
+	  COMPONENT doc
+	)
+	install(FILES ${PROJECT_BINARY_DIR}/docs/index.html ${PROJECT_BINARY_DIR}/docs/manual.html
+	  ${PROJECT_BINARY_DIR}/docs/style.css DESTINATION ${DOC_INSTALL_DIR}
+	  COMPONENT doc
+	)
+
 	add_subdirectory(docs)
 endif()
 if(TCLAP_BUILD_EXAMPLES)
 	add_subdirectory(examples)
 endif()
-add_subdirectory(tests)
 if(TCLAP_BUILD_UNITTESTS)
+	add_subdirectory(tests)
 	add_subdirectory(unittests)
 endif()
 add_subdirectory(include/tclap)
